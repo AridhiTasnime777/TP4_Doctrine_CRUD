@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Article {{ article.id }}{% endblock %}
+
+{% block body %}
+<div class="card col-md-4">
+  <div class="card-body">
+    <h4>{{ article.nom }}</h4>
+    <p><strong>Prix :</strong> {{ article.prix }} DT</p>
+    <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-warning">Modifier</a>
+    <a href="{{ path('article_index') }}" class="btn btn-secondary">Retour</a>
+  </div>
+</div>
+{% endblock %}
