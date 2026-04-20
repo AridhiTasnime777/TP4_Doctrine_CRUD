@@ -16,26 +16,16 @@ class IndexController extends AbstractController
         private EntityManagerInterface $entityManager
     ) {}
 
-    // ── LIST ──────────────────────────────────────────────
+    // 1. INDEX
     #[Route('/', name: 'article_index')]
     public function index(ArticleRepository $repo): Response
     {
-        $articles = $repo->findAll();
         return $this->render('articles/index.html.twig', [
-            'articles' => $articles
+            'articles' => $repo->findAll()
         ]);
     }
 
-    // ── SHOW ──────────────────────────────────────────────
-    #[Route('/article/{id}', name: 'article_show', methods: ['GET'])]
-    public function show(Article $article): Response
-    {
-        return $this->render('articles/show.html.twig', [
-            'article' => $article
-        ]);
-    }
-
-    // ── NEW ───────────────────────────────────────────────
+    // 2. NEW ← doit être AVANT show
     #[Route('/article/new', name: 'article_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -46,7 +36,7 @@ class IndexController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($article);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Article créé avec succès !');
+            $this->addFlash('success', 'Article créé !');
             return $this->redirectToRoute('article_index');
         }
 
@@ -55,7 +45,16 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // ── EDIT ──────────────────────────────────────────────
+    // 3. SHOW ← après new
+    #[Route('/article/{id}', name: 'article_show', methods: ['GET'])]
+    public function show(Article $article): Response
+    {
+        return $this->render('articles/show.html.twig', [
+            'article' => $article
+        ]);
+    }
+
+    // 4. EDIT
     #[Route('/article/edit/{id}', name: 'article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article): Response
     {
@@ -64,7 +63,7 @@ class IndexController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
-            $this->addFlash('success', 'Article modifié avec succès !');
+            $this->addFlash('success', 'Article modifié !');
             return $this->redirectToRoute('article_index');
         }
 
@@ -74,7 +73,7 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // ── DELETE ────────────────────────────────────────────
+    // 5. DELETE
     #[Route('/article/delete/{id}', name: 'article_delete')]
     public function delete(Article $article): Response
     {
