@@ -9,15 +9,16 @@
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container">
         <a class="navbar-brand" href="{{ path('article_index') }}">Gestion Articles</a>
-        <a href="{{ path('article_new') }}" class="btn btn-success btn-sm">+ Nouvel article</a>
+        <div class="d-flex gap-2">
+            <a href="{{ path('article_new') }}" class="btn btn-success btn-sm">+ Nouvel article</a>
+            <a href="{{ path('new_category') }}" class="btn btn-primary btn-sm">+ Catégorie</a>
+        </div>
     </div>
 </nav>
-
 <div class="container">
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
-
     {% block body %}{% endblock %}
 </div>
 </body>

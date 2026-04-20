@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block title %}Nouvelle Catégorie{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Créer une Catégorie</h4>
+      </div>
+      <div class="card-body">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {{ form_row(form.titre) }}
+            {{ form_row(form.description) }}
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+        {{ form_end(form) }}
+      </div>
+      <div class="card-footer">
+        <a href="{{ path('article_index') }}" class="btn btn-secondary btn-sm">Retour</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -2,7 +2,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Form\ArticleType;
+use App\Form\CategoryType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +18,7 @@ class IndexController extends AbstractController
         private EntityManagerInterface $entityManager
     ) {}
 
-    // 1. INDEX
+    // ── LIST ──────────────────────────────────────────────
     #[Route('/', name: 'article_index')]
     public function index(ArticleRepository $repo): Response
     {
@@ -25,7 +27,7 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // 2. NEW ← doit être AVANT show
+    // ── NEW ARTICLE ───────────────────────────────────────
     #[Route('/article/new', name: 'article_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -45,7 +47,7 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // 3. SHOW ← après new
+    // ── SHOW ──────────────────────────────────────────────
     #[Route('/article/{id}', name: 'article_show', methods: ['GET'])]
     public function show(Article $article): Response
     {
@@ -54,7 +56,7 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // 4. EDIT
+    // ── EDIT ──────────────────────────────────────────────
     #[Route('/article/edit/{id}', name: 'article_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Article $article): Response
     {
@@ -73,7 +75,7 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // 5. DELETE
+    // ── DELETE ────────────────────────────────────────────
     #[Route('/article/delete/{id}', name: 'article_delete')]
     public function delete(Article $article): Response
     {
@@ -81,5 +83,25 @@ class IndexController extends AbstractController
         $this->entityManager->flush();
         $this->addFlash('success', 'Article supprimé !');
         return $this->redirectToRoute('article_index');
+    }
+
+    // ── NEW CATEGORY ──────────────────────────────────────
+    #[Route('/category/newCat', name: 'new_category', methods: ['GET', 'POST'])]
+    public function newCategory(Request $request): Response
+    {
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($category);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Catégorie créée !');
+            return $this->redirectToRoute('article_index');
+        }
+
+        return $this->render('articles/newCategory.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

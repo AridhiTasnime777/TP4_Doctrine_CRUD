@@ -18,16 +18,18 @@ class Article
     #[Assert\Length(
         min: 5,
         max: 50,
-        minMessage: "Le nom doit avoir au moins 5 caractères",
-        maxMessage: "Le nom ne peut pas dépasser 50 caractères"
+        minMessage: "Le nom doit avoir au moins 5 caractères"
     )]
     private ?string $nom = null;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 0)]
     #[Assert\NotBlank(message: "Le prix ne peut pas être vide")]
     #[Assert\NotEqualTo(value: 0, message: "Le prix ne peut pas être 0")]
-    #[Assert\Positive(message: "Le prix doit être positif")]
     private ?string $prix = null;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: "articles")]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Category $category = null;
 
     public function getId(): ?int { return $this->id; }
 
@@ -42,6 +44,13 @@ class Article
     public function setPrix(string $prix): static
     {
         $this->prix = $prix;
+        return $this;
+    }
+
+    public function getCategory(): ?Category { return $this->category; }
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
         return $this;
     }
 }

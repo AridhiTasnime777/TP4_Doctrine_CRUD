@@ -2,6 +2,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,6 +22,13 @@ class ArticleType extends AbstractType
             ->add('prix', NumberType::class, [
                 'label' => 'Prix (DT)',
                 'attr'  => ['placeholder' => 'Ex: 1200']
+            ])
+            ->add('category', EntityType::class, [
+                'class'        => Category::class,
+                'choice_label' => 'titre',
+                'label'        => 'Catégorie',
+                'placeholder'  => '-- Choisir une catégorie --',
+                'required'     => false,
             ]);
     }
 

@@ -2,12 +2,34 @@
 {% block title %}Article {{ article.id }}{% endblock %}
 
 {% block body %}
-<div class="card col-md-4">
-  <div class="card-body">
-    <h4>{{ article.nom }}</h4>
-    <p><strong>Prix :</strong> {{ article.prix }} DT</p>
-    <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-warning">Modifier</a>
-    <a href="{{ path('article_index') }}" class="btn btn-secondary">Retour</a>
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow">
+      <div class="card-header bg-info text-white">
+        <h4 class="mb-0">Détail de l'article</h4>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tr><th>ID</th><td>{{ article.id }}</td></tr>
+          <tr><th>Nom</th><td>{{ article.nom }}</td></tr>
+          <tr><th>Prix</th><td>{{ article.prix }} DT</td></tr>
+          <tr>
+            <th>Catégorie</th>
+            <td>
+              {% if article.category %}
+                <span class="badge bg-primary">{{ article.category.titre }}</span>
+              {% else %}
+                <span class="text-muted">Aucune catégorie</span>
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="card-footer d-flex gap-2">
+        <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+        <a href="{{ path('article_index') }}" class="btn btn-secondary btn-sm">Retour</a>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
