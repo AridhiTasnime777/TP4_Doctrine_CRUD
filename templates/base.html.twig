@@ -6,20 +6,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="{{ path('article_index') }}">Gestion Articles</a>
-        <div class="d-flex gap-2">
-            <a href="{{ path('article_new') }}" class="btn btn-success btn-sm">+ Nouvel article</a>
-            <a href="{{ path('new_category') }}" class="btn btn-primary btn-sm">+ Catégorie</a>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="{{ path('article_list') }}">Gestion Articles</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a href="{{ path('article_list') }}" class="nav-link">Articles</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ path('article_new') }}" class="nav-link">+ Article</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ path('new_category') }}" class="nav-link">+ Catégorie</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            Rechercher
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ path('article_search_category') }}">Par catégorie</a></li>
+            <li><a class="dropdown-item" href="{{ path('article_search_price') }}">Par prix</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
+
 <div class="container">
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
-    {% block body %}{% endblock %}
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endfor %}
+  {% block body %}{% endblock %}
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

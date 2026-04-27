@@ -2,41 +2,49 @@
 {% block title %}Liste des Articles{% endblock %}
 
 {% block body %}
-<h2 class="mb-4">Liste des Articles</h2>
+<h2 class="mb-3">Liste des Articles</h2>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    {{ form_start(form) }}
+    <div class="input-group">
+      {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Rechercher par nom...'}}) }}
+      <button type="submit" class="btn btn-primary">Rechercher</button>
+    </div>
+    {{ form_end(form) }}
+  </div>
+</div>
+
 <table class="table table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Prix (DT)</th>
-            <th>Catégorie</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for article in articles %}
-        <tr>
-            <td>{{ article.id }}</td>
-            <td>{{ article.nom }}</td>
-            <td>{{ article.prix }}</td>
-            <td>
-                {% if article.category %}
-                    <span class="badge bg-primary">{{ article.category.titre }}</span>
-                {% else %}
-                    <span class="text-muted">—</span>
-                {% endif %}
-            </td>
-            <td>
-                <a href="{{ path('article_show', {id: article.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
-                <a href="{{ path('article_delete', {id: article.id}) }}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Supprimer ?')">Supprimer</a>
-            </td>
-        </tr>
-    {% else %}
-        <tr><td colspan="5" class="text-center text-muted">Aucun article.</td></tr>
-    {% endfor %}
-    </tbody>
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th><th>Nom</th><th>Prix (DT)</th><th>Catégorie</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for article in articles %}
+    <tr>
+      <td>{{ article.id }}</td>
+      <td>{{ article.nom }}</td>
+      <td>{{ article.prix }}</td>
+      <td>
+        {% if article.category %}
+          <span class="badge bg-primary">{{ article.category.titre }}</span>
+        {% else %}
+          <span class="text-muted">—</span>
+        {% endif %}
+      </td>
+      <td>
+        <a href="{{ path('article_show', {id: article.id}) }}" class="btn btn-info btn-sm">Voir</a>
+        <a href="{{ path('article_edit', {id: article.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+        <a href="{{ path('article_delete', {id: article.id}) }}"
+           class="btn btn-danger btn-sm"
+           onclick="return confirm('Supprimer ?')">Supprimer</a>
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="text-center text-muted">Aucun article trouvé.</td></tr>
+  {% endfor %}
+  </tbody>
 </table>
 {% endblock %}
